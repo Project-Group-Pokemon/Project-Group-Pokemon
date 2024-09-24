@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
+import Pokecard from './components/Pokecard';
 
 function App() {
   return (
@@ -25,9 +26,38 @@ function App() {
               </select>
             </div>
           </header>
-          <div className="bg-gray-200 p-4 rounded dark:bg-gray-800">
-            <p>Pokémon card list here</p>
-          </div>
+
+         <section className='mt-4 mx-4 px-4'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
+      <Pokecard
+          name="Bulbasaur"
+          id={1}
+          types={['Grass', 'Poison']}
+          sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
+        />
+         <Pokecard
+          name="Bulbasaur"
+          id={1}
+          types={['Grass', 'Poison']}
+          sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
+        />
+         <Pokecard
+          name="Bulbasaur"
+          id={1}
+          types={['Grass', 'Poison']}
+          sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
+        />
+         <Pokecard
+          name="Bulbasaur"
+          id={1}
+          types={['Grass', 'Poison']}
+          sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
+        />
+        
+       
+      </div>
+    </section>
+
         </main>
       </div>
     </div>
