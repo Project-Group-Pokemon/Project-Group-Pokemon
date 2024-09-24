@@ -3,13 +3,12 @@ import React from 'react';
 function Pokecard({ name, id, types, sprite }) {
   return (
     <div className="relative bg-gradient-to-r from-green-400 to-blue-500 p-6 rounded-xl shadow-lg w-64 mx-auto">
-     
+    
       <img 
         src="https://upload.wikimedia.org/wikipedia/commons/9/98/International_Pokémon_logo.svg" 
         alt="Pokemon Logo" 
         className="absolute top-2 left-2 w-12"
       />
-
   
       <div className="absolute inset-0 flex justify-center items-center">
         <span className="text-gray-200 text-6xl font-bold opacity-10">{`#${id.toString().padStart(4, '0')}`}</span>
@@ -49,16 +48,27 @@ function Pokecard({ name, id, types, sprite }) {
 // pokemon type colors
 function getTypeColor(type) {
   const typeColors = {
-    Grass: 'bg-green-600',
-    Poison: 'bg-purple-600',
-    Fire: 'bg-red-600',
-    Water: 'bg-blue-600',
-    Electric: 'bg-yellow-500',
-    Normal: 'bg-gray-400',
-    Fairy: 'bg-pink-400',
-    Fighting: 'bg-orange-500',
-  };
-  return typeColors[type] || 'bg-gray-300';
-}
+    grass: 'bg-green-600',
+    poison: 'bg-purple-600',
+    fire: 'bg-red-600',
+    water: 'bg-blue-600',
+    electric: 'bg-yellow-500',
+    normal: 'bg-gray-400',
+    fairy: 'bg-pink-400',
+    fighting: 'bg-orange-500',
+    bug: 'bg-green-500',
+    flying: 'bg-indigo-500',
+    rock: 'bg-yellow-700',
+    ground: 'bg-yellow-400',
+    ghost: 'bg-purple-800',
+    steel: 'bg-gray-600',
+    ice: 'bg-blue-300',
+    dark: 'bg-gray-800',
+    dragon: 'bg-indigo-700',
+    psychic: 'bg-pink-600',
+    shadow: 'bg-black',
 
+  };
+  return typeColors[type.toLowerCase()] || 'bg-gray-300';
+}
 export default Pokecard;
