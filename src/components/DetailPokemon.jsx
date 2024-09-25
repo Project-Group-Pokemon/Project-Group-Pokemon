@@ -1,4 +1,3 @@
-// src/components/DetailPokemon.jsx
 import React, { useEffect, useState, useRef } from 'react';
 
 const DetailPokemon = ({ pokemonId, onClose }) => {
@@ -8,63 +7,63 @@ const DetailPokemon = ({ pokemonId, onClose }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    //Ref untuk mengelola fokus modal
+    // Ref untuk mengelola fokus modal
     const modalRef = useRef(null);
-    //Ref untuk menyimpan elemen yang sebelumnya fokus sebelum modal dibuka
+    // Ref untuk menyimpan elemen yang sebelumnya fokus sebelum modal dibuka
     const previousActiveElement = useRef(null);
 
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true); //start loading
-            setError(null); //reset error
+            setLoading(true); // Mulai loading
+            setError(null); // Reset error
             try {
-                //mengambil data utama Pokémon
+                // Mengambil data utama Pokémon
                 const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
                 if (!response.ok) throw new Error('Pokémon tidak ditemukan');
                 const data = await response.json();
                 setPokemonData(data); // Menyimpan data Pokémon
 
-                //mengambil data spesies Pokémon
+                // Mengambil data spesies Pokémon
                 const speciesResponse = await fetch(data.species.url);
                 if (!speciesResponse.ok) throw new Error('Data spesies tidak ditemukan');
                 const species = await speciesResponse.json();
                 setSpeciesData(species); // Menyimpan data spesies
 
-                //mengambil data rantai evolusi Pokémon
+                // Mengambil data rantai evolusi Pokémon
                 const evolutionResponse = await fetch(species.evolution_chain.url);
                 if (!evolutionResponse.ok) throw new Error('Data evolusi tidak ditemukan');
                 const evolution = await evolutionResponse.json();
-                setEvolutionData(evolution); //menyimpan data evolusi
+                setEvolutionData(evolution); // Menyimpan data evolusi
             } catch (err) {
                 console.error(err);
-                setError(err.message); //menyimpan pesan error
+                setError(err.message); // Menyimpan pesan error
             } finally {
-                setLoading(false); //selesai loading
+                setLoading(false); // Selesai loading
             }
         };
 
-        fetchData(); //memanggil fungsi fetchData
-    }, [pokemonId]); //dependency array dengan pokemonId
+        fetchData(); // Memanggil fungsi fetchData
+    }, [pokemonId]); // Dependency array dengan pokemonId
 
     useEffect(() => {
-        //menyimpan elemen yang sebelumnya fokus
+        // Menyimpan elemen yang sebelumnya fokus
         previousActiveElement.current = document.activeElement;
-        //mengatur fokus ke modal jika modalRef sudah tersedia
+        // Mengatur fokus ke modal jika modalRef sudah tersedia
         if (modalRef.current) {
             modalRef.current.focus();
         }
-        //fungsi untuk menangani penekanan tombol Esc
+        // Fungsi untuk menangani penekanan tombol Esc
         const handleEsc = (event) => {
             if (event.key === 'Escape') {
-                onClose(); //menutup modal jika Esc ditekan
+                onClose(); // Menutup modal jika Esc ditekan
             }
         };
-        window.addEventListener('keydown', handleEsc); //menambahkan event listener
-        //cleanup function untuk menghapus event listener dan mengembalikan fokus
+        window.addEventListener('keydown', handleEsc); // Menambahkan event listener
+        // Cleanup function untuk menghapus event listener dan mengembalikan fokus
         return () => {
-            window.removeEventListener('keydown', handleEsc); //Menghapus event listener
+            window.removeEventListener('keydown', handleEsc); // Menghapus event listener
             if (previousActiveElement.current) {
-                previousActiveElement.current.focus(); //Mengembalikan fokus ke elemen sebelumnya
+                previousActiveElement.current.focus(); // Mengembalikan fokus ke elemen sebelumnya
             }
         };
     }, [onClose]);
@@ -77,10 +76,10 @@ const DetailPokemon = ({ pokemonId, onClose }) => {
     };
 
     const renderEvolutionChain = () => {
-        if (!evolutionData) return null; //mengembalikan null jika data evolusi belum ada
+        if (!evolutionData) return null; // Mengembalikan null jika data evolusi belum ada
         const evoChain = [];
-        let evoData = evolutionData.chain; //memulai dari rantai evolusi awal
-        //mengiterasi rantai evolusi
+        let evoData = evolutionData.chain; // Memulai dari rantai evolusi awal
+        // Mengiterasi rantai evolusi
         do {
             evoChain.push({
                 species_name: evoData.species.name,
@@ -112,7 +111,7 @@ const DetailPokemon = ({ pokemonId, onClose }) => {
     };
 
     const EvolutionItem = ({ evo }) => {
-        const [speciesId, setSpeciesId] = useState(null); //menyimpan ID spesies
+        const [speciesId, setSpeciesId] = useState(null); // Menyimpan ID spesies
 
         useEffect(() => {
             const fetchSpeciesId = async () => {
@@ -125,7 +124,7 @@ const DetailPokemon = ({ pokemonId, onClose }) => {
                     console.error(error);
                 }
             };
-            fetchSpeciesId(); //memanggil fungsi fetchSpeciesId
+            fetchSpeciesId(); // Memanggil fungsi fetchSpeciesId
         }, [evo.species_url]);
         return (
             <div className="flex flex-col items-center">
@@ -182,9 +181,10 @@ const DetailPokemon = ({ pokemonId, onClose }) => {
             spriteUrls.push(sprites.back_shiny);
         }
 
-        //menghapus URL yang duplikat dan falsy (kosong/null)
+        // Menghapus URL yang duplikat dan falsy (kosong/null)
         return Array.from(new Set(spriteUrls)).filter(Boolean);
     };
+
     if (loading) {
         return (
             <div className="fixed inset-0 z-50 bg-gray-900 bg-opacity-90 flex justify-center items-center p-4">
@@ -214,7 +214,19 @@ const DetailPokemon = ({ pokemonId, onClose }) => {
         is_baby,
         is_legendary,
         is_mythical,
+        generation, // Pastikan ini ada
     } = speciesData;
+
+    // Fungsi untuk memformat nama generasi
+    const formatGenerationName = (genName) => {
+        // genName biasanya seperti "generation-i", "generation-ii", dll.
+        const parts = genName.split('-');
+        if (parts.length === 2) {
+            const romanNumeral = parts[1].toUpperCase();
+            return `Generation ${romanNumeral}`;
+        }
+        return genName;
+    };
 
     return (
         <div
@@ -310,7 +322,11 @@ const DetailPokemon = ({ pokemonId, onClose }) => {
                             <p><strong>Shape:</strong> {shape.name}</p>
                             <p><strong>Is Baby:</strong> {is_baby ? 'Yes' : 'No'} </p>
                             <p><strong>Is Legendary:</strong> {is_legendary ? 'Yes' : 'No'}</p>
-                            <p> <strong>Is Mythical:</strong> {is_mythical ? 'Yes' : 'No'}</p>
+                            <p><strong>Is Mythical:</strong> {is_mythical ? 'Yes' : 'No'}</p>
+                            {/* Tambahkan Informasi Generasi di Sini */}
+                            {generation && (
+                                <p><strong>Generation:</strong> {formatGenerationName(generation.name)}</p>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -401,4 +417,16 @@ const getTypeColor = (type) => {
     };
     return typeColors[type.toLowerCase()] || 'bg-gray-300';
 };
+
+// Fungsi untuk memformat nama generasi
+const formatGenerationName = (genName) => {
+    // genName biasanya seperti "generation-i", "generation-ii", dll.
+    const parts = genName.split('-');
+    if (parts.length === 2) {
+        const romanNumeral = parts[1].toUpperCase();
+        return `Generation ${romanNumeral}`;
+    }
+    return genName;
+};
+
 export default DetailPokemon;
