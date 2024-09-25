@@ -1,34 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import Pokecard from './Pokecard';
+import Pokecard from '../components/Pokecard';
 
 function BookmarkPage() {
   const [bookmarkedPokemons, setBookmarkedPokemons] = useState([]);
 
   useEffect(() => {
-    const storedBookmarks = JSON.parse(localStorage.getItem('bookmarkedPokemons')) || [];
-    setBookmarkedPokemons(storedBookmarks);
+    // Load bookmarked Pokemons from localStorage when the component mounts
+    const bookmarks = JSON.parse(localStorage.getItem('bookmarkedPokemons')) || [];
+    setBookmarkedPokemons(bookmarks);
   }, []);
 
+  const handleBookmarkToggle = (id) => {
+    // Update the bookmark state when a Pokémon is un-bookmarked
+    const updatedBookmarks = bookmarkedPokemons.filter((pokemon) => pokemon.id !== id);
+    setBookmarkedPokemons(updatedBookmarks);
+    localStorage.setItem('bookmarkedPokemons', JSON.stringify(updatedBookmarks));
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-300 p-6">
-      <header className="mb-6 p-4 border-b-2 border-gray-300 dark:border-gray-800">
-        <h1 className="text-3xl font-bold">Bookmarked Pokémons</h1>
-      </header>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {bookmarkedPokemons.length > 0 ? (
-          bookmarkedPokemons.map((pokemon) => (
+    <div className="container mx-auto p-6">
+      <h1 className="text-3xl font-bold text-center mb-6">Bookmarked Pokémon</h1>
+
+      {bookmarkedPokemons.length === 0 ? (
+        <p className="text-center text-gray-500">You haven't bookmarked any Pokémon yet.</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {bookmarkedPokemons.map((pokemon) => (
             <Pokecard
               key={pokemon.id}
               name={pokemon.name}
               id={pokemon.id}
               types={pokemon.types}
               sprite={pokemon.sprite}
+              onBookmarkToggle={() => handleBookmarkToggle(pokemon.id)}
             />
-          ))
-        ) : (
-          <p>No bookmarked Pokémons yet.</p>
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
