@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaClipboardList, FaBookmark, FaArrowsAlt, FaEgg, FaShapes, FaInfoCircle } from 'react-icons/fa';
 
-const Sidebar = () => {
+const Sidebar = ({ onMenuClick }) => {
     const [activeItem, setActiveItem] = useState('Pokémons');
 
     const menuItems = [
@@ -21,6 +21,7 @@ const Sidebar = () => {
 
     const handleClick = (item) => {
         setActiveItem(item);
+        onMenuClick(item); 
     };
 
     return (
