@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from 'react';
+// src/components/PokemonList.jsx
+import React, { useState, useEffect } from 'react'; 
 import Pokecard from './Pokecard';
 import Pagination from './Pagination';
 import pLimit from 'p-limit'; 
+import EvolutionChain from '../pages/EvolutionChain'
 
 const PokemonList = ({ searchParams }) => {
-    const [allPokemonList, setAllPokemonList] = useState([]); // Menyimpan semua nama Pokémon
-    const [filteredPokemonList, setFilteredPokemonList] = useState([]); // Menyimpan hasil filter
-    const [pokemonList, setPokemonList] = useState([]); // Menyimpan data Pokémon untuk halaman saat ini
+    const [allPokemonList, setAllPokemonList] = useState([]);
+    const [filteredPokemonList, setFilteredPokemonList] = useState([]);
+    const [pokemonList, setPokemonList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const limit = 50; // Jumlah Pokémon per halaman
+    const limit = 50;
+
+    // Tambahkan state untuk jumlah tahap evolusi
+    const [numStages, setNumStages] = useState(0);
 
     // Fetch semua nama Pokémon saat komponen pertama kali dimuat
     useEffect(() => {
@@ -22,7 +27,7 @@ const PokemonList = ({ searchParams }) => {
                     throw new Error('Error fetching all Pokémon list');
                 }
                 const data = await response.json();
-                setAllPokemonList(data.results); // Menyimpan semua nama Pokémon
+                setAllPokemonList(data.results);
             } catch (error) {
                 console.error('Error fetching all Pokémon:', error);
                 setError(error.message);
@@ -47,8 +52,7 @@ const PokemonList = ({ searchParams }) => {
                     const data = await response.json();
                     const speciesList = data.pokemon_species;
 
-                    // Batasi concurrency untuk menghindari overloading API
-                    const limitConcurrency = pLimit(5); // Batasi ke 5 permintaan sekaligus
+                    const limitConcurrency = pLimit(5);
 
                     const speciesDataPromises = speciesList.map((species) =>
                         limitConcurrency(async () => {
@@ -60,9 +64,12 @@ const PokemonList = ({ searchParams }) => {
                                 const speciesData = await speciesResponse.json();
                                 const defaultVariety = speciesData.varieties.find(v => v.is_default);
                                 if (defaultVariety) {
-                                    return defaultVariety.pokemon.name;
+                                    return {
+                                        name: defaultVariety.pokemon.name,
+                                        evolution_chain_url: speciesData.evolution_chain.url,
+                                        generation: speciesData.generation.name,
+                                    };
                                 }
-                                // Jika tidak ada varian default, abaikan
                                 return null;
                             } catch (error) {
                                 console.error(`Error fetching species data for ${species.name}:`, error);
@@ -72,10 +79,11 @@ const PokemonList = ({ searchParams }) => {
                     );
 
                     const varieties = await Promise.all(speciesDataPromises);
-                    const validVarieties = varieties.filter(name => name !== null);
+                    const validVarieties = varieties.filter(item => item !== null);
 
-                    // Update filtered berdasarkan generasi
-                    filtered = allPokemonList.filter(pokemon => validVarieties.includes(pokemon.name));
+                    filtered = allPokemonList.filter(pokemon => 
+                        validVarieties.some(item => item.name === pokemon.name)
+                    );
                 }
 
                 // **2. Filter berdasarkan Tipe**
@@ -89,7 +97,50 @@ const PokemonList = ({ searchParams }) => {
                     filtered = filtered.filter(pokemon => pokemonOfType.includes(pokemon.name));
                 }
 
-                // **3. Filter berdasarkan Query (Nama)**
+                // **3. Filter berdasarkan Egg Group**
+                if (searchParams.eggGroup) {
+                    const response = await fetch(`https://pokeapi.co/api/v2/egg-group/${searchParams.eggGroup}/`);
+                    if (!response.ok) {
+                        throw new Error('Error fetching Pokémon by egg group');
+                    }
+                    const data = await response.json();
+                    const speciesList = data.pokemon_species;
+
+                    const limitConcurrency = pLimit(5);
+
+                    const speciesDataPromises = speciesList.map((species) =>
+                        limitConcurrency(async () => {
+                            try {
+                                const speciesResponse = await fetch(species.url);
+                                if (!speciesResponse.ok) {
+                                    throw new Error(`Error fetching species data for ${species.name}`);
+                                }
+                                const speciesData = await speciesResponse.json();
+                                const defaultVariety = speciesData.varieties.find(v => v.is_default);
+                                if (defaultVariety) {
+                                    return {
+                                        name: defaultVariety.pokemon.name,
+                                        evolution_chain_url: speciesData.evolution_chain.url,
+                                        generation: speciesData.generation.name,
+                                    };
+                                }
+                                return null;
+                            } catch (error) {
+                                console.error(`Error fetching species data for ${species.name}:`, error);
+                                return null;
+                            }
+                        })
+                    );
+
+                    const varieties = await Promise.all(speciesDataPromises);
+                    const validVarieties = varieties.filter(item => item !== null);
+
+                    filtered = filtered.filter(pokemon => 
+                        validVarieties.some(item => item.name === pokemon.name)
+                    );
+                }
+
+                // **4. Filter berdasarkan Query (Nama)**
                 if (searchParams.query) {
                     filtered = filtered.filter(pokemon =>
                         pokemon.name.toLowerCase().includes(searchParams.query.toLowerCase())
@@ -97,7 +148,7 @@ const PokemonList = ({ searchParams }) => {
                 }
 
                 setFilteredPokemonList(filtered);
-                setCurrentPage(1); // Reset halaman saat filter berubah
+                setCurrentPage(1);
             } catch (error) {
                 console.error('Error during filtering:', error);
                 setError(error.message);
@@ -121,24 +172,31 @@ const PokemonList = ({ searchParams }) => {
             setLoading(true);
             setError(null);
             try {
-                // Mendapatkan subset Pokémon untuk halaman saat ini
                 const startIndex = (currentPage - 1) * limit;
                 const endIndex = startIndex + limit;
                 const currentPokemonSlice = filteredPokemonList.slice(startIndex, endIndex);
 
-                // Fetch detail data untuk subset Pokémon
-                const detailedData = await Promise.all(
-                    currentPokemonSlice.map(async (pokemon) => {
+                const limitConcurrency = pLimit(5);
+
+                const detailedDataPromises = currentPokemonSlice.map((pokemon) =>
+                    limitConcurrency(async () => {
                         try {
-                            const response = await fetch(pokemon.url);
+                            const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`);
                             if (response.status === 404) {
-                                // Pokémon tidak ditemukan, abaikan tanpa log
                                 return null;
                             }
                             if (!response.ok) {
                                 throw new Error(`Error fetching details for ${pokemon.name}`);
                             }
                             const details = await response.json();
+
+                            // Fetch species data to get evolution_chain_url and generation
+                            const speciesResponse = await fetch(details.species.url);
+                            if (!speciesResponse.ok) {
+                                throw new Error(`Error fetching species data for ${pokemon.name}`);
+                            }
+                            const speciesData = await speciesResponse.json();
+
                             return {
                                 id: details.id,
                                 name: details.name,
@@ -147,19 +205,20 @@ const PokemonList = ({ searchParams }) => {
                                     details.sprites.other['official-artwork'].front_default ||
                                     details.sprites.front_default ||
                                     'https://via.placeholder.com/150',
+                                evolution_chain_url: speciesData.evolution_chain.url,
+                                generation: speciesData.generation.name,
                             };
                         } catch (error) {
                             if (error.message.includes('404')) {
-                                // Pokémon tidak ditemukan, abaikan tanpa log
                                 return null;
                             }
-                            // Log hanya jika bukan 404
                             console.error(`Failed to fetch details for ${pokemon.name}`, error);
                             return null;
                         }
                     })
                 );
 
+                const detailedData = await Promise.all(detailedDataPromises);
                 const validData = detailedData.filter(pokemon => pokemon !== null);
                 setPokemonList(validData);
                 setLoading(false);
@@ -170,7 +229,6 @@ const PokemonList = ({ searchParams }) => {
             }
         };
 
-        // Hanya fetch jika filteredPokemonList sudah tersedia
         if (filteredPokemonList.length > 0) {
             fetchPokemonData();
         } else {
@@ -200,6 +258,12 @@ const PokemonList = ({ searchParams }) => {
         if (page !== currentPage) setCurrentPage(page);
     };
 
+    // Fungsi untuk mengkapitalisasi huruf pertama
+    const capitalize = (s) => {
+        if (typeof s !== 'string') return '';
+        return s.charAt(0).toUpperCase() + s.slice(1);
+    }; 
+
     if (loading) {
         return (
             <div className="flex justify-center items-center h-64">
@@ -218,7 +282,8 @@ const PokemonList = ({ searchParams }) => {
 
     return (
         <div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Grid yang responsif */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {pokemonList.map((pokemon) => (
                     <Pokecard
                         key={pokemon.id}
@@ -240,6 +305,35 @@ const PokemonList = ({ searchParams }) => {
                 onLast={handleLastPage}
                 onPageChange={handlePageChange}
             />
+
+            {/* Kontrol untuk jumlah tahap evolusi */}
+            <div className="mt-6 flex items-center">
+                <label htmlFor="numStages" className="mr-2 font-medium">Number of Evolution Stages:</label>
+                <select
+                    id="numStages"
+                    value={numStages}
+                    onChange={(e) => setNumStages(parseInt(e.target.value))}
+                    className="border border-gray-300 rounded px-2 py-1"
+                >
+                    <option value={0}>All</option>
+                    <option value={1}>1 Stage</option>
+                    <option value={2}>2 Stages</option>
+                    <option value={3}>3 Stages</option>
+                </select>
+            </div>
+
+            {/* Menampilkan EvolutionChain */}
+            <div className="mt-8">
+                <h2 className="text-2xl font-bold mb-4">Evolution Chains</h2>
+                <EvolutionChain
+                    filteredPokemonList={pokemonList}
+                    filters={{ 
+                        generation: searchParams.generation,
+                        type: searchParams.type,
+                        numStages: numStages > 0 ? numStages : null,
+                    }}
+                />
+            </div>
         </div>
     );
 };

@@ -1,3 +1,4 @@
+// src/components/Search.jsx
 import React, { useEffect, useState } from 'react';
 
 const Search = ({ searchParams, setSearchParams }) => {
@@ -72,18 +73,18 @@ const Search = ({ searchParams, setSearchParams }) => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row items-center mt-4">
+    <div className="flex flex-col sm:flex-row items-center justify-center mt-4 gap-4">
       <input 
         type="text" 
         placeholder="Search Pokémon by name" 
         value={searchParams.query}
         onChange={handleInputChange}
-        className="bg-gray-200 text-gray-900 dark:bg-gray-800 dark:text-gray-300 p-2 rounded mb-2 sm:mb-0 sm:mr-4 flex-grow"
+        className="bg-gray-200 text-gray-900 dark:bg-gray-800 dark:text-gray-300 p-2 rounded w-full sm:w-1/3"
       />
       <select 
         value={searchParams.generation}
         onChange={handleGenerationChange}
-        className="bg-gray-200 text-gray-900 dark:bg-gray-800 dark:text-gray-300 p-2 rounded mb-2 sm:mb-0 sm:mr-4"
+        className="bg-gray-200 text-gray-900 dark:bg-gray-800 dark:text-gray-300 p-2 rounded w-full sm:w-1/4"
       >
         <option value="">Any Generations</option>
         {generations.map(gen => (
@@ -93,7 +94,7 @@ const Search = ({ searchParams, setSearchParams }) => {
       <select 
         value={searchParams.type}
         onChange={handleTypeChange}
-        className="bg-gray-200 text-gray-900 dark:bg-gray-800 dark:text-gray-300 p-2 rounded mb-2 sm:mb-0 sm:mr-4"
+        className="bg-gray-200 text-gray-900 dark:bg-gray-800 dark:text-gray-300 p-2 rounded w-full sm:w-1/4"
       >
         <option value="">Any Types</option>
         {types.map(type => (
@@ -102,7 +103,7 @@ const Search = ({ searchParams, setSearchParams }) => {
       </select>
       <button
         onClick={handleReset}
-        className="bg-red-500 hover:bg-red-600 text-white p-2 rounded"
+        className="bg-red-500 hover:bg-red-600 text-white p-2 rounded w-full sm:w-auto"
       >
         Reset
       </button>
