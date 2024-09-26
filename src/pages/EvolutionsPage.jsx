@@ -21,7 +21,7 @@ const EvolutionsPage = () => {
             setError(null);
             try {
                 // Fetch semua evolution chains
-                const response = await fetch('https://pokeapi.co/api/v2/evolution-chain?limit=100&offset=0');
+                const response = await fetch('https://pokeapi.co/api/v2/evolution-chain?limit=1000&offset=0');
                 if (!response.ok) {
                     throw new Error('Error fetching evolution chains');
                 }
