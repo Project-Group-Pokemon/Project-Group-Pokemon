@@ -1,5 +1,5 @@
 // src/components/EvolutionChain.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import pLimit from 'p-limit';
 
@@ -16,6 +16,9 @@ const EvolutionChain = ({ evolutionChains }) => {
     const [detailedChains, setDetailedChains] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    // Menggunakan useRef untuk cache yang persisten
+    const fetchedPokemon = useRef({});
 
     // Fetch detail Pokémon untuk setiap rantai evolusi
     useEffect(() => {
@@ -39,26 +42,48 @@ const EvolutionChain = ({ evolutionChains }) => {
                     }
 
                     return Promise.all(
-                        chain.map(pokemon =>
-                            limitConcurrency(async () => {
+                        chain.map(pokemon => {
+                            const pokemonName = pokemon.name.toLowerCase(); // Pastikan nama dalam huruf kecil
+
+                            // Jika sudah di-fetch sebelumnya, gunakan data dari cache
+                            if (fetchedPokemon.current[pokemonName]) {
+                                return Promise.resolve(fetchedPokemon.current[pokemonName]);
+                            }
+
+                            return limitConcurrency(async () => {
                                 try {
-                                    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`);
-                                    if (!response.ok) throw new Error(`Error fetching details for ${pokemon.name}`);
+                                    console.log(`Fetching details for ${pokemonName}`); // Logging sementara
+                                    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+                                    if (!response.ok) {
+                                        // Jika 404, anggap Pokémon tidak valid dan kembalikan null tanpa log
+                                        if (response.status === 404) {
+                                            return null;
+                                        }
+                                        // Untuk error lain, log peringatan
+                                        console.warn(`Failed to fetch details for ${pokemonName}: ${response.statusText}`);
+                                        return null;
+                                    }
                                     const data = await response.json();
-                                    return {
+                                    const pokemonData = {
                                         name: data.name,
                                         types: data.types.map(typeInfo => typeInfo.type.name),
                                         sprite:
-                                            data.sprites.other['official-artwork'].front_default ||
-                                            data.sprites.front_default ||
+                                            (data.sprites?.other?.['official-artwork']?.front_default) ||
+                                            data.sprites?.front_default ||
                                             'https://via.placeholder.com/150',
                                     };
+                                    // Simpan di cache
+                                    fetchedPokemon.current[pokemonName] = pokemonData;
+                                    return pokemonData;
                                 } catch (err) {
-                                    console.error(err);
+                                    // Jangan log error untuk 404, tapi log untuk error lain
+                                    if (err.name !== 'AbortError') {
+                                        console.error(`Error fetching details for ${pokemonName}:`, err);
+                                    }
                                     return null;
                                 }
-                            })
-                        )
+                            });
+                        })
                     );
                 });
 
@@ -69,7 +94,7 @@ const EvolutionChain = ({ evolutionChains }) => {
 
                 setDetailedChains(validChains);
             } catch (err) {
-                console.error(err);
+                console.error('Error in fetchDetails:', err);
                 setError(err.message);
             } finally {
                 setLoading(false);
@@ -87,7 +112,7 @@ const EvolutionChain = ({ evolutionChains }) => {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center h-64">
+            <div className="flex justify-center items-center min-h-screen">
                 <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
             </div>
         );
@@ -105,7 +130,7 @@ const EvolutionChain = ({ evolutionChains }) => {
         <div className="space-y-8">
             {detailedChains.map((chain, index) => (
                 <div key={index} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                    <div className="flex items-center justify-center space-x-4">
+                    <div className="flex flex-wrap items-center justify-center space-x-2 space-y-4 md:space-y-0 md:space-x-4">
                         {chain.map((pokemon, idx) => (
                             <React.Fragment key={pokemon.name}>
                                 <div
@@ -114,13 +139,17 @@ const EvolutionChain = ({ evolutionChains }) => {
                                 >
                                     <img
                                         src={pokemon.sprite}
-                                        alt={pokemon.name}
-                                        className="w-24 h-24 object-contain mb-2"
+                                        alt={capitalize(pokemon.name)}
+                                        className="w-16 h-16 md:w-24 md:h-24 object-contain mb-2"
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = 'https://via.placeholder.com/150';
+                                        }}
                                     />
                                     <span className="capitalize font-semibold">{pokemon.name}</span>
                                 </div>
                                 {idx < chain.length - 1 && (
-                                    <span className="text-gray-500 text-2xl">➔</span>
+                                    <span className="text-gray-900 text-xl md:text-2xl">➔</span>
                                 )}
                             </React.Fragment>
                         ))}

@@ -145,13 +145,13 @@ const EvolutionsPage = () => {
     };
 
     return (
-        <div>
+        <div className="container mx-auto px-4 py-6">
             <h1 className="text-3xl font-bold mb-6 text-center">Evolution Chains</h1>
 
             {/* Kontrol Filter */}
-            <div className="flex flex-col md:flex-row justify-center items-center mb-8 space-y-4 md:space-y-0 md:space-x-6">
+            <div className="flex flex-wrap justify-center items-end mb-8 -mx-2">
                 {/* Filter Generasi */}
-                <div>
+                <div className="px-2 w-full sm:w-1/2 md:w-auto mb-4 md:mb-0">
                     <label htmlFor="generation" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                         Generation
                     </label>
@@ -159,7 +159,7 @@ const EvolutionsPage = () => {
                         id="generation"
                         value={generation}
                         onChange={(e) => setGeneration(e.target.value)}
-                        className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                        className="mt-1 block w-full sm:w-48 pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-700 dark:text-gray-800 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
                     >
                         <option value="">All</option>
                         <option value="1">Generation I</option>
@@ -175,7 +175,7 @@ const EvolutionsPage = () => {
                 </div>
 
                 {/* Filter Tipe */}
-                <div>
+                <div className="px-2 w-full sm:w-1/2 md:w-auto mb-4 md:mb-0">
                     <label htmlFor="type" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                         Type
                     </label>
@@ -183,7 +183,7 @@ const EvolutionsPage = () => {
                         id="type"
                         value={type}
                         onChange={(e) => setType(e.target.value)}
-                        className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                        className="mt-1 block w-full sm:w-48 pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-700 dark:text-gray-800 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
                     >
                         <option value="">All</option>
                         <option value="grass">Grass</option>
@@ -208,7 +208,7 @@ const EvolutionsPage = () => {
                 </div>
 
                 {/* Filter Jumlah Tahap Evolusi */}
-                <div>
+                <div className="px-2 w-full sm:w-1/2 md:w-auto">
                     <label htmlFor="numStages" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                         Number of Evolution Stages
                     </label>
@@ -216,7 +216,7 @@ const EvolutionsPage = () => {
                         id="numStages"
                         value={numStages}
                         onChange={(e) => setNumStages(parseInt(e.target.value))}
-                        className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                        className="mt-1 block w-full sm:w-48 pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-700 dark:text-gray-800 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
                     >
                         <option value={0}>All</option>
                         <option value={1}>1 Stage</option>
@@ -229,7 +229,7 @@ const EvolutionsPage = () => {
 
             {/* Konten Evolusi */}
             {loading ? (
-                <div className="flex justify-center items-center h-64">
+                <div className="flex justify-center items-center min-h-screen">
                     <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
                 </div>
             ) : error ? (

@@ -305,35 +305,6 @@ const PokemonList = ({ searchParams }) => {
                 onLast={handleLastPage}
                 onPageChange={handlePageChange}
             />
-
-            {/* Kontrol untuk jumlah tahap evolusi */}
-            <div className="mt-6 flex items-center">
-                <label htmlFor="numStages" className="mr-2 font-medium">Number of Evolution Stages:</label>
-                <select
-                    id="numStages"
-                    value={numStages}
-                    onChange={(e) => setNumStages(parseInt(e.target.value))}
-                    className="border border-gray-300 rounded px-2 py-1"
-                >
-                    <option value={0}>All</option>
-                    <option value={1}>1 Stage</option>
-                    <option value={2}>2 Stages</option>
-                    <option value={3}>3 Stages</option>
-                </select>
-            </div>
-
-            {/* Menampilkan EvolutionChain */}
-            <div className="mt-8">
-                <h2 className="text-2xl font-bold mb-4">Evolution Chains</h2>
-                <EvolutionChain
-                    filteredPokemonList={pokemonList}
-                    filters={{ 
-                        generation: searchParams.generation,
-                        type: searchParams.type,
-                        numStages: numStages > 0 ? numStages : null,
-                    }}
-                />
-            </div>
         </div>
     );
 };
