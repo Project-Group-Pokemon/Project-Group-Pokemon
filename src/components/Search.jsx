@@ -1,7 +1,7 @@
 // src/components/Search.jsx
 import React, { useEffect, useState } from 'react';
 
-const Search = ({ searchParams, setSearchParams }) => {
+const Search = ({ searchParams, setSearchParams, showGeneration = true, showType = true }) => {
   const [types, setTypes] = useState([]); // Menyimpan daftar tipe Pokémon
   const [generations, setGenerations] = useState([]); // Menyimpan daftar generasi
 
@@ -25,8 +25,10 @@ const Search = ({ searchParams, setSearchParams }) => {
     fetchTypes();
   }, []);
 
-  // Fetch daftar generasi Pokémon
+  // Fetch daftar generasi Pokémon jika showGeneration adalah true
   useEffect(() => {
+    if (!showGeneration) return;
+
     const fetchGenerations = async () => {
       try {
         const response = await fetch('https://pokeapi.co/api/v2/generation');
@@ -41,7 +43,7 @@ const Search = ({ searchParams, setSearchParams }) => {
     };
 
     fetchGenerations();
-  }, []);
+  }, [showGeneration]);
 
   const handleInputChange = (e) => {
     setSearchParams({
@@ -76,31 +78,35 @@ const Search = ({ searchParams, setSearchParams }) => {
     <div className="flex flex-col sm:flex-row items-center justify-center mt-4 gap-4">
       <input 
         type="text" 
-        placeholder="Search Pokémon by name" 
+        placeholder="Cari Pokémon..." 
         value={searchParams.query}
         onChange={handleInputChange}
         className="bg-gray-200 text-gray-900 dark:bg-gray-800 dark:text-gray-300 p-2 rounded w-full sm:w-1/3"
       />
-      <select 
-        value={searchParams.generation}
-        onChange={handleGenerationChange}
-        className="bg-gray-200 text-gray-900 dark:bg-gray-800 dark:text-gray-300 p-2 rounded w-full sm:w-1/4"
-      >
-        <option value="">Any Generations</option>
-        {generations.map(gen => (
-          <option key={gen.name} value={gen.name}>{capitalize(gen.name.replace('-', ' '))}</option>
-        ))}
-      </select>
-      <select 
-        value={searchParams.type}
-        onChange={handleTypeChange}
-        className="bg-gray-200 text-gray-900 dark:bg-gray-800 dark:text-gray-300 p-2 rounded w-full sm:w-1/4"
-      >
-        <option value="">Any Types</option>
-        {types.map(type => (
-          <option key={type.name} value={type.name}>{capitalize(type.name)}</option>
-        ))}
-      </select>
+      {showGeneration && (
+        <select 
+          value={searchParams.generation}
+          onChange={handleGenerationChange}
+          className="bg-gray-200 text-gray-900 dark:bg-gray-800 dark:text-gray-300 p-2 rounded w-full sm:w-1/4"
+        >
+          <option value="">Semua Generasi</option>
+          {generations.map(gen => (
+            <option key={gen.name} value={gen.name}>{capitalize(gen.name.replace('-', ' '))}</option>
+          ))}
+        </select>
+      )}
+      {showType && (
+        <select 
+          value={searchParams.type}
+          onChange={handleTypeChange}
+          className="bg-gray-200 text-gray-900 dark:bg-gray-800 dark:text-gray-300 p-2 rounded w-full sm:w-1/4"
+        >
+          <option value="">Semua Tipe</option>
+          {types.map(type => (
+            <option key={type.name} value={type.name}>{capitalize(type.name)}</option>
+          ))}
+        </select>
+      )}
       <button
         onClick={handleReset}
         className="bg-red-500 hover:bg-red-600 text-white p-2 rounded w-full sm:w-auto"
@@ -111,7 +117,7 @@ const Search = ({ searchParams, setSearchParams }) => {
   );
 };
 
-// Fungsi untuk mengkapitalisasi huruf pertama
+// Fungsi untuk mengkapitalisasi huruf pertama setiap kata
 const capitalize = (s) => {
   if (typeof s !== 'string') return '';
   return s.charAt(0).toUpperCase() + s.slice(1);
