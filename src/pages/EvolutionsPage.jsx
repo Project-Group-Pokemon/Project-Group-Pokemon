@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import EvolutionChain from './EvolutionChain';
 import pLimit from 'p-limit';
+import PokeballLoader from '../components/PokeballLoader';
 
 const EvolutionsPage = () => {
     // State untuk filter
@@ -230,7 +231,7 @@ const EvolutionsPage = () => {
             {/* Konten Evolusi */}
             {loading ? (
                 <div className="flex justify-center items-center min-h-screen">
-                    <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
+                    <PokeballLoader />
                 </div>
             ) : error ? (
                 <div className="text-center text-red-500">Error: {error}</div>

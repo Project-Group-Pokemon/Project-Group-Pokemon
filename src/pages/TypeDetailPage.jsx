@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Pokecard from '../components/Pokecard'; // Pastikan path ini benar
+import PokeballLoader from '../components/PokeballLoader';
 
 const TypeDetailPage = () => {
   const { typeName } = useParams(); // Mendapatkan nama tipe dari URL
@@ -28,7 +29,11 @@ const TypeDetailPage = () => {
   }, [typeName]);
 
   if (loading) {
-    return <div className="text-center text-gray-500">Loading type data...</div>;
+    return (
+      <div className="flex justify-center items-center h-64">
+        <PokeballLoader />
+      </div>
+    )
   }
 
   if (error) {
