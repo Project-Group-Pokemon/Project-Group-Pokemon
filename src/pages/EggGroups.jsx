@@ -1,6 +1,7 @@
 // src/pages/EggGroups.jsx
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import PokeballLoader from '../components/PokeballLoader';
 
 const EggGroups = () => {
   const [eggGroups, setEggGroups] = useState([]);
@@ -27,7 +28,11 @@ const EggGroups = () => {
   }, []);
 
   if (loading) {
-    return <div className="text-center mt-10">Memuat Egg Groups...</div>;
+    return (
+      <div className="flex justify-center items-center h-64">
+        <PokeballLoader />
+      </div>
+    );
   }
 
   if (error) {

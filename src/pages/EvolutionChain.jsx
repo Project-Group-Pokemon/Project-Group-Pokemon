@@ -2,6 +2,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import pLimit from 'p-limit';
+import PokeballLoader from '../components/PokeballLoader';
+
 
 const EvolutionChain = ({ evolutionChains }) => {
     const navigate = useNavigate();
@@ -52,7 +54,7 @@ const EvolutionChain = ({ evolutionChains }) => {
 
                             return limitConcurrency(async () => {
                                 try {
-                                    console.log(`Fetching details for ${pokemonName}`); // Logging sementara
+                                    // console.log(`Fetching details for ${pokemonName}`); // Logging sementara
                                     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
                                     if (!response.ok) {
                                         // Jika 404, anggap Pokémon tidak valid dan kembalikan null tanpa log
@@ -112,8 +114,8 @@ const EvolutionChain = ({ evolutionChains }) => {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center min-h-screen">
-                <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
+            <div className="flex justify-center items-center h-64">
+                <PokeballLoader />
             </div>
         );
     }
