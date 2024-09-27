@@ -9,11 +9,14 @@ import {
   FaShapes,
   FaInfoCircle,
   FaTimes,
+  FaHome,
+  FaSuperpowers,
 } from 'react-icons/fa';
+  import { SiMega } from "react-icons/si";
 
 const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
   const menuItems = [
-    { name: 'Home', icon: <FaClipboardList />, path: '/' },
+    { name: 'Home', icon: <FaHome />, path: '/' },
     { name: 'Pokémons', icon: <FaClipboardList />, path: '/pokemon' }, // Tambahkan ini
     { name: 'Bookmarks', icon: <FaBookmark />, path: '/bookmarks' },
   ];
@@ -25,8 +28,8 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
   ];
 
   const variationsItems = [
-    { name: 'Mega Pokemon', icon: <FaShapes />, path: '/megapokemon' },
-    { name: 'Gigantamax Form', icon: <FaShapes />, path: '/gigantamaxpokemon' },
+    { name: 'Mega Pokemon', icon: <SiMega />, path: '/megapokemon' },
+    { name: 'Gigantamax Form', icon: <FaSuperpowers />, path: '/gigantamaxpokemon' },
   ];
 
   const miscItems = [
