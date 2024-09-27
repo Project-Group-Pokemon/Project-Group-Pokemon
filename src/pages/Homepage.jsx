@@ -31,7 +31,6 @@ const HomePage = () => {
   // Daftar pesan untuk animasi pengenalan
   const messages = [
     { sender: 'Professor Oak', text: ' Halo! Selamat datang di Pokémon Awesome.' },
-    { sender: 'Professor Oak', text: ' Semoga Persentasi Group Project di Minggu Terakhir Phase 1 Kalian lancar😄.' },
     { sender: 'Professor Oak', text: ' Kami akan membantu Anda menemukan berbagai jenis Pokémon.' },
     { sender: 'user', text: ' Wow, keren! Bagaimana cara memulainya?' },
     { sender: 'Professor Oak', text: ' Anda dapat menggunakan fitur pencarian atau menjelajahi melalui sidebar.' },
