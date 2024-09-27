@@ -20,7 +20,13 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
   const pokemonDataItems = [
     { name: 'Evolutions', icon: <FaArrowsAlt />, path: '/evolutions' },
     { name: 'Types', icon: <FaShapes />, path: '/types' },
-    { name: 'Egg Groups', icon: <FaEgg />, path: '/egg-groups' }, // Tambahkan Egg Groups di sini
+    { name: 'Egg Groups', icon: <FaEgg />, path: '/egg-groups' },
+  ];
+
+  const variationsItems = [
+    { name: 'Mega Pokemon', icon: <FaShapes />, path: '/megapokemon' },
+    { name: 'Gigantamax Form', icon: <FaShapes />, path: '/gigantamaxpokemon' },
+
   ];
 
   const miscItems = [
@@ -82,6 +88,31 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
                   </NavLink>
                 </li>
               ))}
+              {/* Variations */}
+              <div className="mt-4">
+                <h3 className="text-xs font-semibold uppercase text-gray-800 dark:text-gray-400 mb-2">
+                  Variations
+                </h3>
+                <ul className="space-y-2 border-l-2 border-gray-300 dark:border-gray-800">
+                  {variationsItems.map((item) => (
+                    <li key={item.name}>
+                      <NavLink
+                        to={item.path}
+                        className={({ isActive }) =>
+                          `flex items-center space-x-2 p-2 hover:text-gray-900 dark:hover:text-white ${
+                            isActive
+                              ? 'border-l-4 border-blue-500 bg-gray-300 dark:bg-gray-800'
+                              : 'border-l-4 border-transparent'
+                          }`
+                        }
+                      >
+                        {item.icon}
+                        <span className="font-medium">{item.name}</span>
+                      </NavLink>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </ul>
           </div>
 
@@ -96,7 +127,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
                   <NavLink
                     to={item.path}
                     className={({ isActive }) =>
-                      `flex items-center space-x-2 p-2  hover:text-gray-900 dark:hover:text-white ${
+                      `flex items-center space-x-2 p-2 hover:text-gray-900 dark:hover:text-white ${
                         isActive
                           ? 'border-l-4 border-blue-500 bg-gray-300 dark:bg-gray-800'
                           : 'border-l-4 border-transparent'
@@ -189,6 +220,32 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
                     </li>
                   ))}
                 </ul>
+                {/* Variations */}
+                <div className="mt-4">
+                  <h3 className="text-xs font-semibold uppercase text-gray-800 dark:text-gray-400 mb-2">
+                    Variations
+                  </h3>
+                  <ul className="space-y-2 border-l-2 border-gray-300 dark:border-gray-800">
+                    {variationsItems.map((item) => (
+                      <li key={item.name}>
+                        <NavLink
+                          to={item.path}
+                          className={({ isActive }) =>
+                            `flex items-center space-x-2 p-2 hover:text-gray-900 dark:hover:text-white ${
+                              isActive
+                                ? 'border-l-4 border-blue-500 bg-gray-300 dark:bg-gray-800'
+                                : 'border-l-4 border-transparent'
+                            }`
+                          }
+                          onClick={toggleSidebar}
+                        >
+                          {item.icon}
+                          <span className="font-medium">{item.name}</span>
+                        </NavLink>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
 
               {/* Miscellaneous */}
@@ -223,15 +280,17 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
       )}
     </>
   );
-};
 
-// Fungsi untuk mengkapitalisasi huruf pertama setiap kata
-const capitalize = (s) => {
-  if (typeof s !== 'string') return '';
-  return s
-    .split(' ')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+  // Fungsi untuk mengkapitalisasi huruf pertama setiap kata (Jika diperlukan)
+  const capitalize = (s) => {
+    if (typeof s !== 'string') return '';
+    return s
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
+  return null; // Tidak diperlukan karena kita menggunakan return di atas
 };
 
 export default Sidebar;

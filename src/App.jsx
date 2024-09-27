@@ -15,6 +15,8 @@ import { BookmarkProvider } from './context/BookmarkContext';
 import DetailPokemon from './components/DetailPokemon';
 import NotFound from './pages/NotFound';
 import EvolutionsPage from './pages/EvolutionsPage'; // Import EvolutionsPage
+import GigantamaxPokemon from './components/Gigantamax';
+import MegaPokemon from './components/MegaPokemon';
 
 function App() {
   // State untuk parameter pencarian
@@ -79,6 +81,8 @@ function App() {
                   <Route path="/pokemon/:pokemonName" element={<DetailPokemon />} />
                   {/* Route untuk Evolutions */}
                   <Route path="/evolutions" element={<EvolutionsPage />} />
+                  <Route path="/gigantamaxpokemon" element={<GigantamaxPokemon />} />
+                  <Route path="/megapokemon" element={<MegaPokemon />} />
                   {/* Tambahkan Route lainnya di sini */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>

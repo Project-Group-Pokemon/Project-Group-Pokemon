@@ -230,7 +230,7 @@ const EvolutionsPage = () => {
 
             {/* Konten Evolusi */}
             {loading ? (
-                <div className="flex justify-center items-center h-64">
+                <div className="flex justify-center items-center min-h-screen">
                     <PokeballLoader />
                 </div>
             ) : error ? (

@@ -53,7 +53,7 @@ const EvolutionChain = ({ evolutionChains }) => {
 
                             return limitConcurrency(async () => {
                                 try {
-                                    console.log(`Fetching details for ${pokemonName}`); // Logging sementara
+                                    // console.log(`Fetching details for ${pokemonName}`); // Logging sementara
                                     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
                                     if (!response.ok) {
                                         // Jika 404, anggap Pokémon tidak valid dan kembalikan null tanpa log
