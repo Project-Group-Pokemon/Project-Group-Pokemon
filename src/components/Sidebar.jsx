@@ -12,7 +12,7 @@ import {
   FaHome,
   FaSuperpowers,
 } from 'react-icons/fa';
-  import { SiMega } from "react-icons/si";
+import { SiMega } from "react-icons/si";
 
 const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
   const menuItems = [
