@@ -253,7 +253,7 @@ const DetailPokemon = () => {
       </div>
       {/* Flavor Text */}
       <div className="mt-4 px-2">
-        <p className="text-gray-300 italic text-center">{getFlavorText()}</p>
+        <p className="dark:text-gray-300 italic text-center">{getFlavorText()}</p>
       </div>
       {/* Evolution Chain */}
       <div className="mt-6 px-2">
@@ -313,7 +313,7 @@ const DetailPokemon = () => {
           {abilities.map((abilityInfo) => (
             <span
               key={abilityInfo.ability.name}
-              className="bg-blue-600 px-4 py-2 rounded-full capitalize text-sm md:text-base"
+              className="bg-blue-600 text-gray-200 px-4 py-2 rounded-full capitalize text-sm md:text-base"
             >
               {abilityInfo.ability.name}
               {abilityInfo.is_hidden && <span className="text-yellow-400 ml-1">(Hidden)</span>}
@@ -344,7 +344,7 @@ const DetailPokemon = () => {
           {moves.slice(0, 12).map((moveInfo, index) => (
             <div
               key={index}
-              className="bg-gray-700 p-2 rounded-md capitalize text-center text-xs sm:text-sm md:text-base"
+              className="bg-gray-700 text-gray-200 p-2 rounded-md capitalize text-center text-xs sm:text-sm md:text-base"
             >
               {moveInfo.move.name.replace('-', ' ')}
             </div>

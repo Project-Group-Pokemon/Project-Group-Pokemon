@@ -1,9 +1,18 @@
 // src/components/Navbar.jsx
 import React, { useState, useEffect } from 'react';
 import { FaMoon, FaSun, FaBars } from 'react-icons/fa';
+import { Link } from 'react-router-dom'; // Import Link
 
 const Navbar = ({ toggleSidebar }) => {
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(() => {
+    // Inisialisasi dark mode berdasarkan preferensi pengguna atau default ke true
+    const savedMode = localStorage.getItem('darkMode');
+    if (savedMode !== null) {
+      return JSON.parse(savedMode);
+    }
+    // Default ke true jika tidak ada preferensi
+    return true;
+  });
 
   useEffect(() => {
     if (darkMode) {
@@ -11,6 +20,7 @@ const Navbar = ({ toggleSidebar }) => {
     } else {
       document.documentElement.classList.remove('dark');
     }
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
   }, [darkMode]);
 
   const toggleDarkMode = () => {
@@ -28,7 +38,10 @@ const Navbar = ({ toggleSidebar }) => {
           >
             <FaBars size={24} />
           </button>
-          <h1 className="text-2xl font-bold">Pokémon Awesome!</h1>
+          {/* Link ke '/' */}
+          <Link to="/">
+            <h1 className="text-2xl font-bold cursor-pointer">Pokémon Awesome!</h1>
+          </Link>
         </div>
         {/* Tombol Dark Mode */}
         <button

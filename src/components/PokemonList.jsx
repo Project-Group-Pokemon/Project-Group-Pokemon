@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import Pokecard from './Pokecard';
 import Pagination from './Pagination';
 import pLimit from 'p-limit';
-import EvolutionChain from '../pages/EvolutionChain'
 import PokeballLoader from './PokeballLoader';
 
 const PokemonList = ({ searchParams }) => {

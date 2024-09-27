@@ -13,7 +13,8 @@ import {
 
 const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
   const menuItems = [
-    { name: 'Pokémons', icon: <FaClipboardList />, path: '/' },
+    { name: 'Home', icon: <FaClipboardList />, path: '/' },
+    { name: 'Pokémons', icon: <FaClipboardList />, path: '/pokemon' }, // Tambahkan ini
     { name: 'Bookmarks', icon: <FaBookmark />, path: '/bookmarks' },
   ];
 
@@ -26,7 +27,6 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
   const variationsItems = [
     { name: 'Mega Pokemon', icon: <FaShapes />, path: '/megapokemon' },
     { name: 'Gigantamax Form', icon: <FaShapes />, path: '/gigantamaxpokemon' },
-
   ];
 
   const miscItems = [
@@ -179,7 +179,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
                       <NavLink
                         to={item.path}
                         className={({ isActive }) =>
-                          `flex items-center space-x-2 p-2  hover:text-gray-900 dark:hover:text-white ${
+                          `flex items-center space-x-2 p-2 hover:text-gray-900 dark:hover:text-white ${
                             isActive
                               ? 'border-l-4 border-blue-500 bg-gray-300 dark:bg-gray-800'
                               : 'border-l-4 border-transparent'
@@ -206,7 +206,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
                       <NavLink
                         to={item.path}
                         className={({ isActive }) =>
-                          `flex items-center space-x-2 p-2  hover:text-gray-900 dark:hover:text-white ${
+                          `flex items-center space-x-2 p-2 hover:text-gray-900 dark:hover:text-white ${
                             isActive
                               ? 'border-l-4 border-blue-500 bg-gray-300 dark:bg-gray-800'
                               : 'border-l-4 border-transparent'
@@ -259,7 +259,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
                       <NavLink
                         to={item.path}
                         className={({ isActive }) =>
-                          `flex items-center space-x-2 p-2  hover:text-gray-900 dark:hover:text-white ${
+                          `flex items-center space-x-2 p-2 hover:text-gray-900 dark:hover:text-white ${
                             isActive
                               ? 'border-l-4 border-blue-500 bg-gray-300 dark:bg-gray-800'
                               : 'border-l-4 border-transparent'
@@ -280,17 +280,6 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
       )}
     </>
   );
-
-  // Fungsi untuk mengkapitalisasi huruf pertama setiap kata (Jika diperlukan)
-  const capitalize = (s) => {
-    if (typeof s !== 'string') return '';
-    return s
-      .split(' ')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-  };
-
-  return null; // Tidak diperlukan karena kita menggunakan return di atas
 };
 
 export default Sidebar;
