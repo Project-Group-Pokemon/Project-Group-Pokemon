@@ -2,9 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-
+import logo from '../assets/professor-oak.png'; // Pastikan path ini sesuai dengan lokasi gambar Anda
+import { CgPokemon } from "react-icons/cg";
 const HomePage = () => {
-  const [showIntroduction, setShowIntroduction] = useState(true);
+  const [showIntroduction, setShowIntroduction] = useState(false);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -14,23 +15,28 @@ const HomePage = () => {
 
   const navigate = useNavigate();
 
-  // Mendapatkan nama pengguna dari sessionStorage jika ada
+  // Mendapatkan nama pengguna dari localStorage jika ada
   useEffect(() => {
-    const storedName = sessionStorage.getItem('userName');
+    const storedName = localStorage.getItem('userName');
     if (storedName) {
       setUserName(storedName);
-      // Jika nama sudah ada, mulai dari pesan selanjutnya tanpa meminta nama lagi
-      setCurrentMessageIndex(1); // Asumsikan pesan ke-0 adalah salam
+      // Jika nama sudah ada, langsung navigasi ke WelcomePage
+      navigate('/welcome', { replace: true, state: { name: storedName } });
+    } else {
+      // Jika nama belum ada, tampilkan animasi pengenalan
+      setShowIntroduction(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Daftar pesan untuk animasi pengenalan
   const messages = [
-    { sender: 'bot', text: 'Halo! Selamat datang di Pokémon Awesome.' },
-    { sender: 'bot', text: 'Kami akan membantu Anda menemukan berbagai jenis Pokémon.' },
-    { sender: 'user', text: 'Wow, keren! Bagaimana cara memulainya?' },
-    { sender: 'bot', text: 'Anda dapat menggunakan fitur pencarian atau menjelajahi melalui sidebar.' },
-    { sender: 'bot', text: 'Sebelum kita mulai, bolehkah kami mengetahui nama Anda?' },
+    { sender: 'Professor Oak', text: ' Halo! Selamat datang di Pokémon Awesome.' },
+    { sender: 'Professor Oak', text: ' Semoga Persentasi Group Project di Minggu Terakhir Phase 1 Kalian lancar😄.' },
+    { sender: 'Professor Oak', text: ' Kami akan membantu Anda menemukan berbagai jenis Pokémon.' },
+    { sender: 'user', text: ' Wow, keren! Bagaimana cara memulainya?' },
+    { sender: 'Professor Oak', text: ' Anda dapat menggunakan fitur pencarian atau menjelajahi melalui sidebar.' },
+    { sender: 'Professor Oak', text: 'Sebelum kita mulai, bolehkah kami mengetahui nama Anda?' },
   ];
 
   // useEffect untuk menjalankan animasi pesan
@@ -90,7 +96,7 @@ const HomePage = () => {
     e.preventDefault();
     if (userName.trim()) {
       console.log('Nama yang dikirim:', userName.trim());
-      sessionStorage.setItem('userName', userName.trim()); // Simpan nama di sessionStorage
+      localStorage.setItem('userName', userName.trim()); // Simpan nama di localStorage
       setShowIntroduction(false); // Sembunyikan animasi pengenalan
       navigate('/welcome', { state: { name: userName.trim() } }); // Navigasi ke WelcomePage
     }
@@ -106,7 +112,7 @@ const HomePage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-gray-800 bg-opacity-100 flex items-center justify-center z-50"
           >
             <motion.div
               key="intro-box"
@@ -116,6 +122,11 @@ const HomePage = () => {
               transition={{ duration: 0.3 }}
               className="bg-white dark:bg-gray-700 rounded-lg p-6 max-w-md w-full relative"
             >
+              {/* Gambar di Atas Obrolan */}
+              <div className="flex justify-center mb-4">
+                <img src={logo} alt="Logo Pokémon Awesome" className="w-32 object-contain" />
+              </div>
+
               {/* Tombol Skip */}
               <button
                 onClick={handleIntroSkip}
@@ -127,17 +138,17 @@ const HomePage = () => {
               <div className="flex items-start">
                 <div className="flex-shrink-0">
                   {/* Avatar atau ikon bot */}
-                  <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white">
-                    B
+                  <div className="w-12 h-12 bg-gray-400 rounded-full flex items-center justify-center text-white text-lg">
+                  <CgPokemon />
                   </div>
                 </div>
-                <div className="ml-4 w-full">
+                <div className="ml-6 flex-1">
                   <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                    {messages[currentMessageIndex]?.sender === 'bot' ? 'Bot' : 'Anda'}
+                    {messages[currentMessageIndex]?.sender === 'Professor Oak' ? 'Professor Oak' : 'Anda'}
                   </div>
-                  <div className="mt-1 text-sm text-gray-700 dark:text-gray-300">
+                  <div className="mt-1 text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words">
                     {displayedText}
-                    {isTyping && <span className="animate-pulse">|</span>}
+                    {isTyping && <span className="animate-pulse ml-1">|</span>}
                   </div>
                   {/* Form Input Nama Pengguna */}
                   {isAskingName && (
@@ -166,29 +177,21 @@ const HomePage = () => {
       </AnimatePresence>
 
       {/* Konten Utama HomePage */}
-      <div
-        className={
-          showIntroduction
-            ? 'opacity-50 pointer-events-none transition-opacity duration-300'
-            : 'opacity-100'
-        }
-      >
-        <div className="p-6 text-center">
-          {userName && (
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-              Selamat datang kembali, {userName}!
-            </h3>
-          )}
-          <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100">Welcome to Pokémon Awesome!</h2>
-          <p className="mt-4 text-lg text-gray-700 dark:text-gray-300">Explore and discover various Pokémon species.</p>
-          <Link
-            to="/pokemon"
-            className="mt-6 inline-block bg-blue-500 text-white px-6 py-3 rounded-full shadow hover:bg-blue-600 transition"
-          >
-            Explore Pokémon
-          </Link>
-          {/* Tambahkan konten lainnya di sini */}
-        </div>
+      <div className="p-6 text-center">
+        {userName && (
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            Selamat datang kembali, {userName}!
+          </h3>
+        )}
+        <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100">Welcome to Pokémon Awesome!</h2>
+        <p className="mt-4 text-lg text-gray-700 dark:text-gray-300">Explore and discover various Pokémon species.</p>
+        <Link
+          to="/pokemon"
+          className="mt-6 inline-block bg-blue-500 text-white px-6 py-3 rounded-full shadow hover:bg-blue-600 transition"
+        >
+          Explore Pokémon
+        </Link>
+        {/* Tambahkan konten lainnya di sini */}
       </div>
     </div>
   );

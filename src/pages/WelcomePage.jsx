@@ -5,7 +5,7 @@ import { useLocation, useNavigate, Link } from 'react-router-dom';
 const WelcomePage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const name = location.state?.name || sessionStorage.getItem('userName');
+  const name = location.state?.name || localStorage.getItem('userName');
 
   useEffect(() => {
     if (!name) {
