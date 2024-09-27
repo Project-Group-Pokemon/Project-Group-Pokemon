@@ -1,9 +1,10 @@
 // src/components/PokemonList.jsx
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import Pokecard from './Pokecard';
 import Pagination from './Pagination';
-import pLimit from 'p-limit'; 
+import pLimit from 'p-limit';
 import EvolutionChain from '../pages/EvolutionChain'
+import PokeballLoader from './PokeballLoader';
 
 const PokemonList = ({ searchParams }) => {
     const [allPokemonList, setAllPokemonList] = useState([]);
@@ -81,7 +82,7 @@ const PokemonList = ({ searchParams }) => {
                     const varieties = await Promise.all(speciesDataPromises);
                     const validVarieties = varieties.filter(item => item !== null);
 
-                    filtered = allPokemonList.filter(pokemon => 
+                    filtered = allPokemonList.filter(pokemon =>
                         validVarieties.some(item => item.name === pokemon.name)
                     );
                 }
@@ -135,7 +136,7 @@ const PokemonList = ({ searchParams }) => {
                     const varieties = await Promise.all(speciesDataPromises);
                     const validVarieties = varieties.filter(item => item !== null);
 
-                    filtered = filtered.filter(pokemon => 
+                    filtered = filtered.filter(pokemon =>
                         validVarieties.some(item => item.name === pokemon.name)
                     );
                 }
@@ -262,12 +263,12 @@ const PokemonList = ({ searchParams }) => {
     const capitalize = (s) => {
         if (typeof s !== 'string') return '';
         return s.charAt(0).toUpperCase() + s.slice(1);
-    }; 
+    };
 
     if (loading) {
         return (
             <div className="flex justify-center items-center h-64">
-                <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
+                <PokeballLoader />
             </div>
         );
     }
