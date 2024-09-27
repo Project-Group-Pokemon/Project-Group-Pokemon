@@ -1,10 +1,8 @@
 import React, { createContext, useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 
-// Membuat Context
 export const BookmarkContext = createContext();
 
-// Membuat Provider
 export const BookmarkProvider = ({ children }) => {
   const [bookmarkedPokemons, setBookmarkedPokemons] = useState([]);
 

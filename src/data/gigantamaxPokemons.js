@@ -1,4 +1,3 @@
-// src/data/gigantamaxPokemons.js
 export const gigantamaxPokemons = [
     'butterfree-gmax',
     'corviknight-gmax',
@@ -13,6 +12,5 @@ export const gigantamaxPokemons = [
     'orbeetle-gmax',
     'urshifu-single-strike-gmax',
     'urshifu-rapid-strike-gmax',
-    // Tambahkan Pokémon Gigantamax lainnya sesuai kebutuhan
   ];
   

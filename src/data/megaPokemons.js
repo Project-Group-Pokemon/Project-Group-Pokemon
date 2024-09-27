@@ -1,4 +1,3 @@
-// src/data/megaPokemons.js
 export const megaPokemons = [
   'venusaur-mega',
   'charizard-mega-x',
@@ -29,5 +28,4 @@ export const megaPokemons = [
   'diancie-mega',
   'lopunny-mega',
   'gallade-mega',
-  // Tambahkan Pokémon Mega lainnya sesuai kebutuhan
 ];
