@@ -1,21 +1,10 @@
-import React, { useEffect, useState } from 'react';
+// src/pages/BookmarkPage.jsx
+import React, { useContext } from 'react';
 import Pokecard from '../components/Pokecard';
+import { BookmarkContext } from '../context/BookmarkContext'; // Import BookmarkContext
 
 function BookmarkPage() {
-  const [bookmarkedPokemons, setBookmarkedPokemons] = useState([]);
-
-  useEffect(() => {
-    // Load bookmarked Pokemons from localStorage when the component mounts
-    const bookmarks = JSON.parse(localStorage.getItem('bookmarkedPokemons')) || [];
-    setBookmarkedPokemons(bookmarks);
-  }, []);
-
-  const handleBookmarkToggle = (id) => {
-    // Update the bookmark state when a Pokémon is un-bookmarked
-    const updatedBookmarks = bookmarkedPokemons.filter((pokemon) => pokemon.id !== id);
-    setBookmarkedPokemons(updatedBookmarks);
-    localStorage.setItem('bookmarkedPokemons', JSON.stringify(updatedBookmarks));
-  };
+  const { bookmarkedPokemons } = useContext(BookmarkContext);
 
   return (
     <div className="container mx-auto p-6">
@@ -32,7 +21,6 @@ function BookmarkPage() {
               id={pokemon.id}
               types={pokemon.types}
               sprite={pokemon.sprite}
-              onBookmarkToggle={() => handleBookmarkToggle(pokemon.id)}
             />
           ))}
         </div>
