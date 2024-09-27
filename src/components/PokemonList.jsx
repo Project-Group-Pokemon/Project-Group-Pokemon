@@ -19,7 +19,7 @@ const PokemonList = ({ searchParams }) => {
     useEffect(() => {
         const fetchAllPokemon = async () => {
             try {
-                const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=100&offset=0`);
+                const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=10000&offset=0`);
                 if (!response.ok) {
                     throw new Error('Error fetching all Pokémon list');
                 }
