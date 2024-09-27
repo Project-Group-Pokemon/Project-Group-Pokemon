@@ -17,7 +17,7 @@ import EvolutionsPage from './pages/EvolutionsPage';
 import GigantamaxPokemon from './components/Gigantamax';
 import MegaPokemon from './components/MegaPokemon';
 import HomePage from './pages/HomePage'; // Import HomePage
-import AnimatedIntroduction from './components/AnimatedIntroduction'; // Import komponen
+import WelcomePage from './pages/WelcomePage';
 
 function App() {
   // State untuk parameter pencarian
@@ -37,27 +37,6 @@ function App() {
   // State untuk evolution cache
   const [evolutionCache, setEvolutionCache] = useState({});
 
-  // State untuk mengontrol tampilan animasi perkenalan
-  const [showIntroduction, setShowIntroduction] = useState(true);
-
-  // Optional: Menampilkan animasi hanya sekali menggunakan localStorage
-  useEffect(() => {
-    const hasSeenIntro = localStorage.getItem('hasSeenIntro');
-    if (hasSeenIntro) {
-      setShowIntroduction(false);
-    }
-  }, []);
-
-  const handleIntroComplete = () => {
-    setShowIntroduction(false);
-    localStorage.setItem('hasSeenIntro', 'true');
-  };
-
-  const handleIntroSkip = () => {
-    setShowIntroduction(false);
-    localStorage.setItem('hasSeenIntro', 'true');
-  };
-
   return (
     <BookmarkProvider>
       <Router>
@@ -75,22 +54,14 @@ function App() {
 
               {/* Main content yang fleksibel */}
               <main className="flex-1 p-6 border-l-2 border-gray-300 dark:border-gray-800 relative">
-                {showIntroduction && (
-                  <AnimatedIntroduction
-                    onComplete={handleIntroComplete}
-                    onSkip={handleIntroSkip}
-                  />
-                )}
                 <div
-                  className={
-                    showIntroduction
-                      ? 'opacity-50 pointer-events-none transition-opacity duration-300'
-                      : 'opacity-100'
-                  }
                 >
                   <Routes>
                     {/* Rute Home Page */}
                     <Route path="/" element={<HomePage />} />
+                    
+                    {/* Rute Welcome Page */}
+                  <Route path="/welcome" element={<WelcomePage />} />
 
                     {/* Rute Pokémons pada '/pokemon' */}
                     <Route
