@@ -14,14 +14,12 @@ const PokemonList = ({ searchParams }) => {
     const [totalPages, setTotalPages] = useState(1);
     const limit = 50;
 
-    // Tambahkan state untuk jumlah tahap evolusi
-    const [numStages, setNumStages] = useState(0);
 
     // Fetch semua nama Pokémon saat komponen pertama kali dimuat
     useEffect(() => {
         const fetchAllPokemon = async () => {
             try {
-                const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=50&offset=0`);
+                const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=100&offset=0`);
                 if (!response.ok) {
                     throw new Error('Error fetching all Pokémon list');
                 }

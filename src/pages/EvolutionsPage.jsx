@@ -21,14 +21,14 @@ const EvolutionsPage = () => {
             setError(null);
             try {
                 // Fetch semua evolution chains
-                const response = await fetch('https://pokeapi.co/api/v2/evolution-chain?limit=1000&offset=0');
+                const response = await fetch('https://pokeapi.co/api/v2/evolution-chain?limit=200&offset=0');
                 if (!response.ok) {
                     throw new Error('Error fetching evolution chains');
                 }
                 const data = await response.json();
                 const evolutionChainUrls = data.results.map(chain => chain.url);
 
-                const limitConcurrency = pLimit(5); // Batasi ke 5 permintaan sekaligus
+                const limitConcurrency = pLimit(10); // Batasi ke 5 permintaan sekaligus
 
                 // Fetch detail evolution chains
                 const evolutionDataPromises = evolutionChainUrls.map(url =>
