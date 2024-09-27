@@ -77,7 +77,7 @@ const AnimatedIntroduction = ({ onComplete, onSkip }) => {
                 B
               </div>
             </div>
-            <div className="ml-4">
+            <div className="ml-5">
               <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 {messages[currentMessage]?.sender === 'bot' ? 'Bot' : 'Anda'}
               </div>
