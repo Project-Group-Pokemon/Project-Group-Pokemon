@@ -1,11 +1,12 @@
 // src/pages/HomePage.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import AnimatedIntroduction from '../components/AnimatedIntroduction';
 
 const HomePage = () => {
-  const [showIntroduction, setShowIntroduction] = React.useState(true);
+  const [showIntroduction, setShowIntroduction] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const hasSeenIntro = localStorage.getItem('hasSeenIntro');
     if (hasSeenIntro) {
       setShowIntroduction(false);
@@ -38,9 +39,15 @@ const HomePage = () => {
         }
       >
         {/* Konten HomePage Anda */}
-        <div className="p-6">
-          <h2 className="text-2xl font-bold">Welcome to Pokémon Awesome!</h2>
-          <p>Explore and discover various Pokémon species.</p>
+        <div className="p-6 text-center">
+          <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100">Welcome to Pokémon Awesome!</h2>
+          <p className="mt-4 text-lg text-gray-700 dark:text-gray-300">Explore and discover various Pokémon species.</p>
+          <Link
+            to="/pokemon"
+            className="mt-6 inline-block bg-blue-500 text-white px-6 py-3 rounded-full shadow hover:bg-blue-600 transition"
+          >
+            Explore Pokémon
+          </Link>
           {/* Tambahkan konten lainnya di sini */}
         </div>
       </div>

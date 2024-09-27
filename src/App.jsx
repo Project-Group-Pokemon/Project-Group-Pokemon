@@ -91,11 +91,11 @@ function App() {
                 >
                   <Routes>
                     {/* Rute Home Page */}
-                    <Route path="/home" element={<HomePage />} />
+                    <Route path="/" element={<HomePage />} />
 
-                    {/* Rute Pokémons pada root '/' */}
+                    {/* Rute Pokémons pada '/pokemon' */}
                     <Route
-                      path="/"
+                      path="/pokemon"
                       element={
                         <>
                           <header className="mb-6 p-4 border-b-2 border-gray-300 dark:border-gray-800">

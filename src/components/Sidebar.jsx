@@ -13,7 +13,8 @@ import {
 
 const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
   const menuItems = [
-    { name: 'Pokémons', icon: <FaClipboardList />, path: '/' }, // Mengarah ke '/'
+    { name: 'Home', icon: <FaClipboardList />, path: '/' },
+    { name: 'Pokémons', icon: <FaClipboardList />, path: '/pokemon' }, // Tambahkan ini
     { name: 'Bookmarks', icon: <FaBookmark />, path: '/bookmarks' },
   ];
 
