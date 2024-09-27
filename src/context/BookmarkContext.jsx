@@ -1,5 +1,5 @@
-// src/context/BookmarkContext.jsx
 import React, { createContext, useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 
 // Membuat Context
 export const BookmarkContext = createContext();
@@ -21,15 +21,36 @@ export const BookmarkProvider = ({ children }) => {
 
   // Fungsi untuk menambahkan bookmark
   const addBookmark = (pokemon) => {
-    // Pastikan Pokémon belum di-bookmark
+  // Pastikan Pokémon belum di-bookmark
     if (!bookmarkedPokemons.some((p) => p.id === pokemon.id)) {
       setBookmarkedPokemons((prev) => [...prev, pokemon]);
     }
-  };
+
+  // notifikasi telah di bookmark -i
+    Swal.fire({
+      title: 'Luar Biasa, Trainer!',
+      text: `${pokemon.name} sekarang menjadi Pokémon favoritmu!`,
+      icon: 'success',
+      confirmButtonText: 'Oke!',
+      timer: 2500,
+    });
+  }
 
   // Fungsi untuk menghapus bookmark
   const removeBookmark = (id) => {
+    const pokemonToRemove = bookmarkedPokemons.find((pokemon) => pokemon.id === id);
     setBookmarkedPokemons((prev) => prev.filter((pokemon) => pokemon.id !== id));
+
+    // notifikasi saat bookmark diremove
+    if (pokemonToRemove) {
+      Swal.fire({
+        title: 'Sayang Sekali!',
+      text: `${pokemonToRemove.name} sudah tidak lagi menjadi favoritmu.`,
+      icon: 'warning',
+      timer: 2000,
+      showConfirmButton: false,
+      });
+    }
   };
 
   // Fungsi untuk toggle bookmark
