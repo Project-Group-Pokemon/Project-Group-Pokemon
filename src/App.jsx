@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
@@ -16,7 +16,7 @@ import NotFound from './pages/NotFound';
 import EvolutionsPage from './pages/EvolutionsPage';
 import GigantamaxPokemon from './components/Gigantamax';
 import MegaPokemon from './components/MegaPokemon';
-import HomePage from './pages/HomePage'; // Import HomePage
+import HomePage from './pages/Homepage'; 
 import WelcomePage from './pages/WelcomePage';
 
 function App() {
@@ -59,9 +59,9 @@ function App() {
                   <Routes>
                     {/* Rute Home Page */}
                     <Route path="/" element={<HomePage />} />
-                    
+
                     {/* Rute Welcome Page */}
-                  <Route path="/welcome" element={<WelcomePage />} />
+                    <Route path="/welcome" element={<WelcomePage />} />
 
                     {/* Rute Pokémons pada '/pokemon' */}
                     <Route

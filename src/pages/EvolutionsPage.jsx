@@ -1,4 +1,3 @@
-// src/pages/EvolutionsPage.jsx
 import React, { useState, useEffect } from 'react';
 import EvolutionChain from './EvolutionChain';
 import pLimit from 'p-limit';

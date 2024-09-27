@@ -1,8 +1,7 @@
-// src/components/MegaPokemon.jsx
 import React, { useEffect, useState } from 'react';
 import { megaPokemons } from '../data/megaPokemons';
-import Pokecard from './Pokecard'; // Pastikan komponen Pokecard sudah dibuat
-import Search from './Search'; // Import komponen Search
+import Pokecard from './Pokecard'; 
+import Search from './Search'; 
 
 const MegaPokemon = () => {
   const [megaData, setMegaData] = useState([]);

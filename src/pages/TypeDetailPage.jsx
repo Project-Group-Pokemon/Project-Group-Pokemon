@@ -1,4 +1,3 @@
-// src/Pages/TypeDetailPage.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Pokecard from '../components/Pokecard'; // Pastikan path ini benar

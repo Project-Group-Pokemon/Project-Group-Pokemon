@@ -1,4 +1,3 @@
-// src/components/PokemonList.jsx
 import React, { useState, useEffect } from 'react';
 import Pokecard from './Pokecard';
 import Pagination from './Pagination';

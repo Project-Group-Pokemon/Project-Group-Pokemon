@@ -1,4 +1,3 @@
-// src/components/Pokecard.jsx
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { BookmarkContext } from '../context/BookmarkContext'; // Import BookmarkContext

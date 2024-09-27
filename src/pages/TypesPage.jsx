@@ -1,4 +1,3 @@
-// src/Pages/TypesPage.jsx
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PokeballLoader from '../components/PokeballLoader';

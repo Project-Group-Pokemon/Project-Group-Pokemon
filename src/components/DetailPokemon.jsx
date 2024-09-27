@@ -1,4 +1,3 @@
-// src/components/DetailPokemon.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; // Import useParams dan useNavigate
 import PokeballPopLoader from './PokeballPopLoader';

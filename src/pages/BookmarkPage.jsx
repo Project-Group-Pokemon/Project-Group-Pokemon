@@ -1,4 +1,3 @@
-// src/pages/BookmarkPage.jsx
 import React, { useContext } from 'react';
 import Pokecard from '../components/Pokecard';
 import { BookmarkContext } from '../context/BookmarkContext'; // Import BookmarkContext

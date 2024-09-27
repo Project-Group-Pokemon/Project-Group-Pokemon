@@ -1,4 +1,3 @@
-// src/components/EvolutionChain.jsx
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import pLimit from 'p-limit';

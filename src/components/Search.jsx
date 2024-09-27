@@ -1,9 +1,8 @@
-// src/components/Search.jsx
 import React, { useEffect, useState } from 'react';
 
 const Search = ({ searchParams, setSearchParams, showGeneration = true, showType = true }) => {
-  const [types, setTypes] = useState([]); // Menyimpan daftar tipe Pokémon
-  const [generations, setGenerations] = useState([]); // Menyimpan daftar generasi
+  const [types, setTypes] = useState([]);
+  const [generations, setGenerations] = useState([]);
 
   // Fetch daftar tipe Pokémon
   useEffect(() => {

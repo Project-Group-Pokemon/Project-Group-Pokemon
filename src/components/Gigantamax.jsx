@@ -1,4 +1,3 @@
-// src/components/GigantamaxPokemon.jsx
 import React, { useEffect, useState } from 'react';
 import { gigantamaxPokemons } from '../data/gigantamaxPokemons';
 import Pokecard from './Pokecard'; // Pastikan komponen Pokecard sudah dibuat

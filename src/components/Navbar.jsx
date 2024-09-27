@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx
 import React, { useState, useEffect } from 'react';
 import { FaMoon, FaSun, FaBars } from 'react-icons/fa';
 import { Link } from 'react-router-dom'; // Import Link
