@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import pLimit from 'p-limit';
 import PokeballLoader from '../components/PokeballLoader';
 
-
 const EvolutionChain = ({ evolutionChains }) => {
     const navigate = useNavigate();
 

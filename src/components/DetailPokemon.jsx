@@ -1,8 +1,7 @@
 // src/components/DetailPokemon.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; // Import useParams dan useNavigate
-import PokeballLoader from './PokeballLoader';
-
+import PokeballPopLoader from './PokeballPopLoader';
 
 const DetailPokemon = () => {
   const { pokemonName } = useParams(); // Mengambil nama Pokémon dari URL
@@ -114,7 +113,7 @@ const DetailPokemon = () => {
           />
         ) : (
           <div className="w-20 h-20 md:w-24 md:h-24 bg-gray-700 rounded-md flex items-center justify-center">
-            <PokeballLoader />
+            <PokeballPopLoader />
           </div>
         )}
         <span className="capitalize mt-2 text-sm md:text-base">{evo.species_name}</span>
@@ -160,7 +159,7 @@ const DetailPokemon = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <PokeballLoader />
+        <PokeballPopLoader />
       </div>
     );
   }

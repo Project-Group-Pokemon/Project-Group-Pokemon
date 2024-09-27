@@ -1,6 +1,7 @@
 // src/Pages/TypesPage.jsx
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import PokeballLoader from '../components/PokeballLoader';
 
 const TypesPage = () => {
   const [types, setTypes] = useState([]);
@@ -59,7 +60,9 @@ const TypesPage = () => {
     <div className="container mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Pokémon Types</h1>
       {types.length === 0 ? (
-        <p className="text-center text-gray-500">Loading types...</p>
+        <div className="flex justify-center items-center h-64">
+          <PokeballLoader />
+        </div>
       ) : (
         <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {types.map((type) => (
