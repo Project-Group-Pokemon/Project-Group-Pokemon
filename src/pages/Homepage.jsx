@@ -157,7 +157,7 @@ const HomePage = () => {
                         value={userName}
                         onChange={(e) => setUserName(e.target.value)}
                         placeholder="Masukkan nama Anda"
-                        className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                        className="w-full px-3 py-2 border rounded-md focus:outline-none text-black focus:ring focus:border-blue-300"
                         required
                       />
                       <button
